@@ -1,27 +1,42 @@
-import json
+import json 
 from pathlib import Path
-from errors import AppError , ConfigError , ConfigFileMissingError , InvalidConfigError
+
+print("welcome to JSON Data Explorer")
+print("Choose a dataset:")
+print("1. Albums")
+print("2. Comments")
+print("3. posts")
+print("4. users")
 
 
-config_path = Path("config.json")
+choice = input("Enter your optin:")
 
-try:
-    if not config_path.exists():
-          raise ConfigFileMissingError("config.json not found")
-    
-    f = open(config_path)
-    config = json.load(f)
-    f.close()
-    print(config)
+files = {
+    "1": "albums.json",
+    "2": "Comments.json",
+    "3": "posts.json",
+    "4": "users.json",
+}
 
+if choice not in files:
+    print("Invalid option selected")
 
-except ConfigFileMissingError as e:
-    print(e)
-except InvalidConfigError as e:
-     print(e)
+selected_file = files[choice]
 
+file_path = Path("data") / selected_file
 
+f = open(file_path)
+data = json.load(f)
+f.close()
 
+print(json.dumps(data,indent = 4))
 
+ask = input("Do you want specific data? (yes/no):")
 
+field = input("Which field do you want to see? ")
 
+for item in data:
+    if field in item:
+        print(item[field])
+
+print("Thanks for using JSON Data Explorer")
