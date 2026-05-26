@@ -13,13 +13,14 @@ choice = input("Enter your optin:")
 
 files = {
     "1": "albums.json",
-    "2": "Comments.json",
+    "2": "comments.json",
     "3": "posts.json",
     "4": "users.json",
 }
 
 if choice not in files:
     print("Invalid option selected")
+    exit()
 
 selected_file = files[choice]
 
@@ -33,10 +34,23 @@ print(json.dumps(data,indent = 4))
 
 ask = input("Do you want specific data? (yes/no):")
 
-field = input("Which field do you want to see? ")
+if ask.lower() == "yes":
+    print("Available fields:")
+    print(data[0].keys())
 
-for item in data:
-    if field in item:
-        print(item[field])
+    field = input("Which field do you want to see? ")
+
+    if field not in data[0]:
+        print("Invalid field selected")
+        exit()
+    
+    for item in data:
+        if field in item:
+            print(item[field])
+
+
+
+else:
+    print("Okay, exiting...")
 
 print("Thanks for using JSON Data Explorer")
